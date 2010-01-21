@@ -1,0 +1,162 @@
+/*
+  A blue based theme, inspired by Blinksale and their ColorBurn widget. http://firewheeldesign.com
+  
+  AUTHOR: Geoffrey Grosenbach http://nubyonrails.com
+  
+  Colors: 
+    Light Blue: bbccff 
+    White: eeddee
+    Turq: 003355
+    Cream: ffffdd
+*/
+
+.calendar {
+  margin: auto;
+	width: 100%;
+}
+
+.monthName th {
+  font-weight: normal;
+  text-align: right;
+  padding-top: 1em;
+  padding-bottom: 0.7em;
+}
+
+.dayName th {
+  font-size: 0.7em;
+  padding-top: 0.6em;
+  padding-bottom: 0.3em;
+  background-color: #303030;
+  color: white;
+}
+
+.otherMonth, .day, .specialDay {
+  padding: 0.7em 1em;
+  border-right: 1px solid white;
+
+}
+
+.otherMonth {
+  color: #ccc;
+  background-color: white;
+	text-align: center;
+}
+
+.day, .specialDay {
+  text-align: center;
+  border-bottom: 1px dotted #bbbbbb;
+  background-color: #bbccff;
+}
+.specialDay {
+  background-color: #003355;
+  color: white;
+}
+.specialDay a, .specialDay a:visited, .specialDay a:hover {
+  color: white;
+  text-decoration: none;
+  padding: 1em;
+}
+.specialDay a:hover {
+  color: white;
+  background-color: black;
+}
+.weekendDay {
+  background-color: #ffffdd;
+}
+.today{
+	background-color: #4682b4;
+}
+
+#big_calendar {
+	border-collapse: collapse;
+	text-align: center;
+	color: #536E87;
+	width: 100%;
+}
+
+#big_calendar td,
+#big_calendar th {
+	font-family: "Lucida Grande",arial,helvetica,sans-serif;
+	font-size: 10px;
+	padding: 0px;
+}
+
+#big_calendar th {
+	border: 1px solid #536E87;
+	background: #536E87;
+	text-align: center;
+	color: #fff;
+}
+
+#big_calendar td {
+	background: #EDF5FE;
+	border: 1px solid #536E87;
+	text-align: left;
+	padding: 3px;
+	vertical-align: top;
+}
+
+#big_calendar span {
+	display: block;
+}
+
+#big_calendar td.events {
+	background: #fff;
+}
+
+#big_calendar td.today {
+	background: #ffc;
+	color: #666;
+}
+
+#big_calendar caption {
+  display: none;
+}
+
+#big_calendar_header {
+	font-family: Arial, Helvetica;
+	color: #536E87;
+	width: 100%;
+}
+
+#big_calendar_header td.left {
+	text-align: right;
+	width: 35%;
+}
+
+#big_calendar_header td.right {
+	text-align: left;
+	width: 35%;
+}
+
+#big_calendar_header td.centered {
+	text-align: center;
+	width: 30%;
+	font-size: 20px;
+}
+
+#big_calendar a, #big_calendar a:visited {
+	text-decoration: underline;
+}
+
+#booking_header {
+	font-family: Arial, Helvetica;
+	color: #536E87;
+	width: 100%;
+}
+
+#booking_header td.left {
+	text-align: right;
+	width: 20%;
+}
+
+#booking_header td.right {
+	text-align: left;
+	width: 20%;
+}
+
+#booking_header td.centered {
+	text-align: center;
+	width: 60%;
+	font-size: 20px;
+}

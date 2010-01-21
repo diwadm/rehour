@@ -1,0 +1,19 @@
+<div id="as_admin__projects-active-scaffold" class="active-scaffold active-scaffold-as_admin__projects admin/projects-view default-theme">
+	<div class="active-scaffold-header">
+		<div class="actions">
+			<%= link_to 'Create New',{ :action => 'new'}, {:class => 'new action', :position => 'top'} %>
+		</div>
+		<h2>Project Assignments</h2>
+		
+		<% if flash[:notice] %>
+			<div id="message"><%= flash[:notice] %></div>
+		<% end %>
+		
+		<% for user in @users %>
+			<% unless user.project_assignments.blank? %>
+			<h3><%= user.name %></h3>
+			<%= render :partial => 'project_list', :locals => {:user => user, :project_assignments => user.project_assignments} %>
+			<% end %>
+		<% end %>
+	</div>
+</div>

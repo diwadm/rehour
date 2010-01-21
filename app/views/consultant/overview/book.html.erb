@@ -1,0 +1,97 @@
+<% form_remote_tag :url => "/save_book" do %>
+<div id="consultant_month_overview">
+	<%= hidden_field_tag 'date', @date.strftime('%m/%d/%Y') %>
+	
+	<table id="booking_header">
+		<tr>
+			<td class="left">
+				<%= link_to image_tag('arrow-back_24.gif'), {:controller => 'consultant/overview', :action => 'book', :month => params[:month], :day => params[:day], :year => params[:year], :adjustment => (params[:adjustment].to_i - 1)} %>
+			</td>
+			<td class="centered">
+				<h1>Book Hours for Week <%= @current_week %>: <%= @week_date_label %></h1>
+			</td>
+			<td class="right">
+				<%= link_to image_tag('arrow-forward_24.gif'), {:controller => 'consultant/overview', :action => 'book', :month => params[:month], :day => params[:day], :year => params[:year], :adjustment => (params[:adjustment].to_i + 1)} %>
+			</td>
+		</tr>
+	</table>
+	
+	<div id="message" style="display: none;"></div>
+	
+	<table id="timesheet">
+		<tr>
+			<th class="project">Project</th>
+			<% 0.upto(6) { |displacement| %>
+			<% current_date = @week_start + displacement %>
+			<th><%= day_date_only(current_date) %></th>
+			<% } %>
+		</tr>
+		<% self.current_user.project_assignments_by_customers.each { |customer_id, assignments| %>
+			<% customer = Customer.find(customer_id) %>
+			<tr>
+				<td class="project_name" colspan="8">
+					<%= customer.name %>
+				</td>
+			</tr>
+			<% for assignment in assignments %>
+			<tr>
+				<td>
+					<%= assignment.project.name %> <span class="project_role">(<%= assignment.role %>)</span>
+					<br />
+					<div id="<%= assignment_message_id(assignment.id) %>" class="assignment_message"></div>
+					<div id="<%= error_assignment_message_id(assignment.id) %>" class="error_in_saving"></div>
+				</td>
+				<% 0.upto(6) { |displacement| %>
+				<% current_date = @week_start + displacement %>
+				
+				<% timesheet_entry = TimesheetEntry.find_by_project_assignment_id_and_entry_date(assignment.id, "#{current_date.year}-#{current_date.month}-#{current_date.day}") %>
+				<% hours = timesheet_entry.hours? if timesheet_entry %>
+				<% image_src = 'edit_16.gif' %>
+				<% image_src = 'confirm_16.gif' if timesheet_entry and !timesheet_entry.comment.blank? %>
+				
+				<td><%= link_to_function image_tag(image_src, :width => 8, :height => 8), nil, :id => '' do |page| 
+					
+					0.upto(6) { |displacement_local|
+						current_date_local = @week_start + displacement_local
+						page["#{assignment_comment_id(current_date_local, assignment.id)}"].hide
+					}
+					
+					page["#{assignment_comment_id(current_date, assignment.id)}"].show
+					
+					end %>
+					<br />
+				<%= text_field_tag book_id_name(current_date, assignment.id), hours || '', {:class => 'text_box', :autocomplete => 'off'} %></td>
+				<% } %>
+			</tr>
+			<% end %>
+			<tr>
+				<td colspan="8">
+				<% for assignment in assignments %>
+					<% 0.upto(6) { |displacement| %>
+						<% current_date = @week_start + displacement %>
+						<% timesheet_entry = TimesheetEntry.find_by_project_assignment_id_and_entry_date(assignment.id, "#{current_date.year}-#{current_date.month}-#{current_date.day}") %>
+						<div id="<%= assignment_comment_id(current_date, assignment.id) -%>" style="display: none;">
+						<p class="additional_comments">Additional Comments for <%= assignment.project.name %> <%= date_format(current_date) -%> <%= link_to_function 'Hide', %{$('#{assignment_comment_id(current_date, assignment.id)}').hide()} %></p>
+						<% comment = timesheet_entry.comment if timesheet_entry %>
+						<%= text_area_tag assignment_comment_text_box_id(current_date, assignment.id), comment || '', {:class => 'text_area'} %>
+						</div>
+						
+					<% } %>
+				<% end %>
+				</td>
+			</tr>
+		<% } %>
+	</table>
+	
+	<div id="book_comment_area">
+		<h3>Comments</h3>
+		<% timesheet_comment = TimesheetComment.find_by_user_id_and_comment_date(self.current_user.id, "#{@date.year}-#{@date.month}-#{@date.day}") %>
+		<% comment = timesheet_comment.comment if timesheet_comment %>
+		<%= text_area_tag comment_date_id_name(@date, self.current_user.id), comment || '', {:class => 'text_area'} %>
+	</div>
+	<%= submit_tag 'Save' %>
+	
+	<%= hidden_field_tag 'week_start', @week_start %>
+	<%= hidden_field_tag 'week_end', @week_end %>
+</div>
+<% end %>

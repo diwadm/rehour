@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title><%= app_name %> - <%= controller.controller_name %> :: <%= controller.action_name %></title>
+
+	<%= stylesheet_link_tag "#{assets_prefix}ehour" %>
+	<%= javascript_include_tag :defaults %>
+	<%= active_scaffold_includes %>
+	<%= stylesheet_link_tag "#{assets_prefix}ehourTabs" %>
+	<%= stylesheet_link_tag "#{calendar_prefix}calendars" %>
+	<%= stylesheet_link_tag "#{assets_prefix}style" %>
+</head>
+
+<body>
+	<span>	
+		<div class="NavHeader">
+			<div class="Logo">
+				<%= image_tag("#{assets_prefix}logo.gif") %>
+			</div>
+		
+			<div class="Navigation">
+				<%= link_to 'overview', :controller => 'consultant/overview' %>
+				<!--<span>  |  </span>
+				<a href="#">export month</a>
+				<span>  |  </span>
+				<a href="#">project mgmt</a>
+				<span>  |  </span>
+				<a href="#">reporting</a>-->
+				<% if self.current_user.is_admin? %>
+				<span>  |  </span>
+				<%= admin_default_link('admin')  %>
+				<% end %>
+				<% if self.current_user.is_report_user? %>
+				<span>  |  </span>
+				<%= link_to 'reporting', :controller => 'reporting/overview' %>
+				<% end %>
+			</div>
+		</div>
+		<!-- end of NavHeader -->
+	
+		<div class="LoggedInAs">
+		  Logged in as
+		  <span class="emphasized"><%= self.current_user.last_name %>, <%= self.current_user.first_name %></span>
+		  &nbsp;-&nbsp;
+		  <%= link_to 'Log Out', logout_url %>
+		</div>
+		<!-- end of LoggedInAs -->
+
+	</span>
+	<!-- end of span -->
+		
+	<div class="navColumn">
+	 	<div class="SidePanelLoc">
+			<div>
+				<% if false and @date %>
+					<div align="center">
+					<table id="small_calendar_header">
+						<tr>
+							<td class="left">
+								<%= image_tag('arrow-back_16.gif') %>
+							</td>
+							<td class="centered">
+								<%= @date.strftime('%B') %> <%= @date.year %>
+							</td>
+							<td class="right">
+								<%= image_tag('arrow-forward_16.gif') %>
+							</td>
+						</tr>
+					</table>
+					<% calendar :year => @date.year, :month => @date.month, :header_format => '%a', :id => 'small_calendar' do |date| %>
+					
+
+					<% end %>
+					</div>
+				<% end %>
+			</div>
+			<div>
+				<div class="GreyNavFrame">
+					<% if self.current_user.is_consultant? %>
+					<h3>Your Projects</h3>
+
+					<div class="GreyNavBody">
+						<ul>
+							<% for project_assignment in self.current_user.project_assignments %>
+							<li><%= project_assignment.project.name %> - <%= project_assignment.ROLE %></li>
+							<% end %>
+						</ul>
+					</div>
+					<% end %>
+					
+					<% if self.current_user.is_admin? %>
+					<h3><%= app_name %> Administration</h3>
+						<ul id="left_nav">
+							<!--<li><a href="../admin">Configuration</a><br /><BR /></li>-->
+							<li><%= link_to 'Departments', :controller => 'admin/departments' %></li>
+							<li><%= link_to 'Users', :controller => 'admin/users' %><br /><br /></li>
+
+							<li><%= link_to 'Customers', :controller => 'admin/customers' %></li>
+							<li><%= link_to 'Projects', :controller => 'admin/projects' %></li>
+							<li><%= link_to 'Assignments', :controller => 'admin/assignments' %></li>
+							<!--<li><a href="../audit">Audit report</a><br /></li>-->
+						</ul>
+					<% end %>
+					<!-- end of GreyNavBody -->
+					<!--<div class="GreyNavFrameFooter">
+						<p></p>
+					</div>-->
+				</div>	
+			</div>
+		</div>
+		<!-- end of SidePanelLoc -->
+	
+		<div id="contextHelp36" class="ContextualHelp">
+			<div class="Help">
+				<% begin %>
+					<%= render :partial => "help/#{controller.controller_name}" %>
+				<% rescue %>
+				
+				<% end %>
+			</div>
+		</div>
+	</div>
+	<!-- end of navColumn -->
+		    
+	<div class="mainColumn">
+		<%= yield %>
+	</div>
+    	
+	</body>
+</html>
