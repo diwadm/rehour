@@ -1,0 +1,109 @@
+<table cellpadding="0" cellspacing="0">
+    <tbody class="before-header">
+      <tr><td></td></tr>
+    </tbody>
+</table>
+
+<div>
+	<table cellpadding="0" cellspacing="0">
+  		<thead>
+    		<tr>
+          		<th style="width: 180px;">
+					<p>Project</p>
+    			</th>
+    			<th>
+					<p>Hourly Rate</p>
+    			</th>
+    			<th>
+					<p>Type</p>
+    			</th>
+    			<th>
+          			<p>Date Start</p>
+    			</th>
+    			<th>
+       				<p>Date End</p>
+    			</th>
+				<th>
+       				<p>Project <br />Length<br /> (Days)</p>
+    			</th>
+				<th>
+       				<p>Allotted Hours</p>
+    			</th>
+				<th style="width: 50px;">
+       				<p>Remaining Hours</p>
+    			</th>
+    			<th>
+       				<p>Active</p>
+    			</th>
+				<th>
+       				<p>PM</p>
+    			</th>
+				<th class="actions"></th>
+    		</tr>
+  		</thead>
+  		<tbody class="messages">
+		    <tr>
+		      <td colspan="6" class="messages-container">
+		        <div>
+		        </div>
+        		<p class="filtered-message"  style="display:none;" >
+		          (Filtered)
+		        </p>
+        		<p class="empty-message"  style="display:none;" >
+		          No Entries
+		        </p>
+		      </td>
+		    </tr>
+	  	</tbody>
+  		<tbody class="records">
+		<% for project_assignment in sort_assignments(project_assignments) %>
+			<tr class="record">
+    			<td class="NAME-column">
+					<%= project_assignment.project.name %><br />
+					<%= project_assignment.role %>
+				</td>
+    			<td class="customer-column">
+					<%= currency_format(project_assignment.hourly_rate) %>
+    			</td>
+				<td class="customer-column">
+					<%= project_assignment.assignment_type.short_code if project_assignment.assignment_type %>
+    			</td>
+    			<td class="PROJECT_CODE-column ">
+			      <%= date_format(project_assignment.date_start) if project_assignment.date_start %>
+			    </td>
+    			<td class="default_project-column ">
+			      <%= date_format(project_assignment.date_end) if project_assignment.date_end %>
+			    </td>
+				<td	>
+			      <%= project_assignment.length %>
+			    </td>
+				<td class="default_project-column ">
+			      <%= number_format(project_assignment.allotted_hours) %>
+			    </td>
+				<td class="default_project-column ">
+			      <%= number_format(project_assignment.remaining_hours) %>
+			    </td>
+    			<td class="active-column " >
+			      <%= project_assignment.active %>
+			    </td>
+				<td class="active-column " >
+			      <%= project_assignment.is_pm? %>
+			    </td>
+			    <td class="actions">
+    				<table cellpadding="0" cellspacing="0">
+  						<tr>
+                			<td>
+								<%= link_to 'Edit', :action => 'edit', :id => project_assignment %>
+							</td>
+                			<td>
+        						<%= link_to 'Delete', {:action => 'destroy', :id => project_assignment}, :confirm => 'Are you sure? This will delete all data that are associated with this assignment.' %>
+							</td>
+      					</tr>
+					</table>
+  				</td>
+			</tr>
+			<!-- end of record -->
+		<% end %>
+      </tbody>
+	</table>
+</div>

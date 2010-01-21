@@ -1,0 +1,21 @@
+<% scope ||= nil %>
+<% logger.info "COLUMN IS #{column.name}" %>
+<dl class="<%= column.css_class unless column.css_class.nil? %>">
+  <dt>
+    <label for="<%= active_scaffold_input_options(column, scope)[:id] unless column.name.to_s == 'project_managers' %>"><%= column.label %></label>
+  </dt>
+  <dd>
+	<% # this is a hack for active scaffold to make it work with table USER_TO_USER_ROLES %>
+	<% # since Active Scaffold doesn't seem to like tables without the default Rails way of creating primary keys, %>
+	<% # we'll create the form ourselves. Sniff. :-( %>
+	<% if column.name.to_s == 'project_managers' %>
+		Project Managers
+	<% else %>
+    	<%= active_scaffold_input_for column, scope %>
+	<% end %>
+	
+    <% if column.description -%>
+      <span class="description"><%= column.description %></span>
+    <% end -%>
+  </dd>
+</dl>

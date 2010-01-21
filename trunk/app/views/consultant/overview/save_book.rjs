@@ -1,0 +1,29 @@
+page["message"].update(flash[:notice])
+page["message"].show
+
+style = ""
+
+# display message
+@total_hours.each { |assignment_id, total_hours|
+  if total_hours > 0
+    project_assignment = ProjectAssignment.find(assignment_id)
+    message_txt = "Booked for a total of #{number_format(total_hours)} hours. Total for this project: #{number_format(project_assignment.total_hours)}"
+    page[assignment_message_id(assignment_id)].update(message_txt)
+    #logger.info "ASSIGNMENT_ID #{assignment_id} #{total_hours}"
+  end
+}
+
+# display error messages for over-quota
+@error_entries.each { |timesheet_entry|
+  project_assignment = timesheet_entry.project_assignment
+  message_txt = "Boxes in red weren't saved because they are over-quota. Remaining: #{number_format(project_assignment.remaining_hours)}"
+  
+  page[error_assignment_message_id(project_assignment.id)].update(message_txt)
+}
+
+# change the border of the hours boxes into red
+for timesheet_entry in @error_entries
+  timesheet_entry_html_id = book_id_name(timesheet_entry.entry_date, timesheet_entry.project_assignment_id)
+  page[timesheet_entry_html_id].set_style('border: 1px solid red;')
+  #page.alert("#{timesheet_entry_html_id}")
+end

@@ -1,0 +1,18 @@
+<div id="as_admin__projects-active-scaffold" class="active-scaffold active-scaffold-as_admin__projects admin/projects-view default-theme">
+	<div class="active-scaffold-header">
+		<div class="actions">
+			<%= link_to 'Back', {:action => 'index'}, {:class => 'action', :position => 'top'} %>
+			<!-- <a class="new action" position="top" href="/admin/projects/new?_method=get">Create New</a>
+			<a class="show_search action" position="top" href="/admin/projects/show_search?_method=get">Search</a>
+			<img id="as_admin__projects-table-loading-indicator" class="loading-indicator" style="visibility: hidden;" src="/images/active_scaffold/default/indicator.gif?1255988094" alt="loading indicator"/> -->
+		</div>
+		<h2>New Project Assignment</h2>
+		
+		<%= error_messages_for :project_assignment %>
+		
+		<% form_tag :action => 'create' do %>
+			<%= render :partial => 'form', :locals => {:button_tag => 'Add'} %>
+		<% end %>
+	</div>
+	<!-- end of active-scaffold-header -->
+</div>

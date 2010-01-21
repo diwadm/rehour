@@ -1,0 +1,16 @@
+<div id="as_admin__projects-active-scaffold" class="active-scaffold active-scaffold-as_admin__projects admin/projects-view default-theme">
+	<div class="active-scaffold-header">
+		<div class="actions">
+			<%= link_to 'Back', {:action => 'index'}, {:class => 'action', :position => 'top'} %>
+			<%= link_to 'Show', {:action => 'show', :id => @project_assignment}, {:class => 'action', :position => 'top'} %>
+		</div>
+		<h2>Edit Project Assignment</h2>
+		
+		<%= error_messages_for :project_assignment %>
+		
+		<% form_tag :action => 'update', :id => @project_assignment do %>
+			<%= render :partial => 'form', :locals => {:button_tag => 'Update'} %>
+		<% end %>
+	</div>
+	<!-- end of active-scaffold-header -->
+</div>

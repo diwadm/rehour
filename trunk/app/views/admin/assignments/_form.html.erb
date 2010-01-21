@@ -1,0 +1,63 @@
+<table>
+	<tr>
+		<td style="width: 250px;">User</th>
+		<td><%= collection_select :project_assignment, :user_id, User.active, :id, :full_name, {:prompt => true} %></td>
+	</tr>
+	<tr>
+		<td>Project</th>
+		<td><%= collection_select :project_assignment, :project_id, Project.active, :id, :name, {:prompt => true} %></td>
+	</tr>
+	<tr>
+		<td>Hourly Rate</th>
+		<td><%= text_field :project_assignment, :hourly_rate %></td>
+	</tr>
+	<tr>
+		<td>Type</th>
+		<td><%= radio_button :project_assignment, :assignment_type_id, 2, :onclick => "showFixedOptions()" %> Fixed <%= radio_button :project_assignment, :assignment_type_id, 3, :onclick => "showFlexOptions()" %> Flexible</td>
+	</tr>
+	<tr id="alloted_hours" style="display: none;">
+		<td>Alloted Hours</th>
+		<td><%= text_field :project_assignment, :allotted_hours %></td>
+	</tr>
+	<tr id="alloted_hours_overrun" style="display: none;">
+		<td>Alloted Overrun Hours</th>
+		<td><%= text_field :project_assignment, :allotted_hours_overrun %></td>
+	</tr>
+	<tr id="alloted_hours_notify_pm" style="display: none;">
+		<td>Notify PM on Overrun?</th>
+		<td><%= check_box :project_assignment, :notify_pm, {}, 'Y' %></td>
+	</tr>
+	<tr>
+		<td>Date Start</th>
+		<td><%= date_select :project_assignment, :date_start, :order => [:month, :day, :year], :include_blank => true %></td>
+	</tr>
+	<tr>
+		<td>Date End</th>
+		<td><%= date_select :project_assignment, :date_end, :order => [:month, :day, :year], :include_blank => true %></td>
+	</tr>
+	<tr>
+		<td>Role</th>
+		<td><%= text_field :project_assignment, :role %></td>
+	</tr>
+	<tr>
+		<td>Active?</th>
+		<td><%= check_box :project_assignment, :is_active, {}, true %></td>
+	</tr>
+	<tr>
+		<td>Project Manager?</th>
+		<td><%= check_box :project_assignment, :is_pm, {}, true %></td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><%= submit_tag(button_tag) %>
+	</tr>
+</table>
+<% if @project_assignment and @project_assignment.is_fixed? %>
+	<% javascript_tag :defer => 'defer' do -%>
+		showFixedOptions()
+	<% end %>
+<% else %>
+	<% javascript_tag :defer => 'defer' do -%>
+		showFlexOptions()
+	<% end %>
+<% end %>

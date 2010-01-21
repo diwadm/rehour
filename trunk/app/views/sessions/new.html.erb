@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title><%= app_name %> - Login</title>
+	<%= stylesheet_link_tag 'ehour' %>
+	<%= stylesheet_link_tag 'ehourLogin' %>
+</head><body>
+		<br><br>
+<% form_tag session_path do -%><input name="loginform1_hf_0" id="loginform1_hf_0" type="hidden"></div>
+		<div class="GreyFrameContainer" style="width: 650px; margin-left: auto; margin-right: auto;">
+			<h3>&nbsp;</h3>
+			
+			<div class="GreyFrameBody" style="padding: 10px 40px;">
+				<div class="GreyBlueFrameHorizontal">
+					<div class="GreyBlueLeftTop">
+						<div class="GreyBlueRightTop">
+							&nbsp;
+						</div>
+					</div>
+					
+					<div style="padding: 0px 0pt 0pt 15px; float: left; text-align: right; font-family: Geneva,Arial,Helvetica,sans-serif; font-style: normal; font-variant: normal; font-weight: normal; font-size: 0.8em; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">
+						<img src="/images/logo.gif"><br>
+						<div style="padding-right: 6px;"><%= version_number %></div>
+					</div>
+
+					<div style="padding: 7px 23px 0pt 9px; float: left;">
+						<img src="/images/pixel_grey.gif" height="80" width="1">
+					</div>
+					
+					<div style="margin: 0pt; padding: 47px 0pt 0pt;">
+						
+						<table cellpadding="0" cellspacing="0">
+							<tbody><tr>
+								<td style="padding-right: 5px;"><%= label_tag 'login' %>:</td>
+				            	<td><%= text_field_tag 'login', @login %></td>
+								<td>&nbsp;</td>
+							</tr>
+			
+							<tr>
+								<td style="padding-right: 5px;"><%= label_tag 'password' %>:</td>
+					            <td><%= password_field_tag 'password', nil %></td>
+								<td style="padding-left: 10px;"><input id="signin2" name="signin" value="Sign in &gt;&gt;" class="submitButton" onfocus="blur()" type="submit"></td>
+							</tr>
+						</tbody></table>
+						<% if flash[:error] %>
+						<div style="float: left; color: red; font-size: 0.8em;">
+							<span>
+							<span class="feedbackPanelERROR">
+							<span class="feedbackPanelERROR"><%= flash[:error] %></span>
+							</span>
+							</span>
+						</div>
+						<% end %>
+						
+					</div>
+					
+					
+					<br>
+					
+					
+					<div class="GreyBlueLeftBottom">
+						<div class="GreyBlueRightBottom">
+							&nbsp;
+						</div>
+					</div>	
+				</div>
+			</div>
+			
+			<div class="GreyFrameFooter">
+				<p></p>
+			</div>
+		</div>
+		<% end %>
+	    
+</body></html>

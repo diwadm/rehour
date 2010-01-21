@@ -1,0 +1,73 @@
+<h1>Aggregated hours: <%= date.strftime('%B %Y') %></h1>
+
+<table id="timesheet">
+	<tr>
+		<th class="project">Project</th>
+		<th>Code</th>
+		<th>Allotted</th>
+		<th>Total Hours Booked</th>
+		<th>Remaining</th>
+		<th>Rate</th>
+		<th>Billable Hours</th>
+	</tr>
+	<% total_hours_book = 0.0 %>
+	<% total_billable_hours = 0.0 %>
+	<% total_allotted = 0.0 %>
+	<% total_remaining = 0.0 %>
+	
+	<% self.current_user.project_assignments_by_customers.each { |customer_id, assignments| %>
+		<% customer = Customer.find(customer_id) %>
+		<tr>
+			<td class="project_name" colspan="8">
+				<%= customer.name %>
+			</td>
+		</tr>
+		<% for assignment in assignments %>
+		<tr>
+			<td>
+				<%= assignment.project.name %> <span class="project_role">(<%= assignment.role? %>)</span>
+			</td>
+			<td class="centered"><%= assignment.project.project_code %></td>
+			<td class="centered"><%= number_format(assignment.allotted_hours) %></td>
+			<td class="centered"><%= number_format(assignment.total_hours) %></td>
+			<td class="centered"><%= number_format(assignment.remaining_hours) %></td>
+			<td class="centered"><%= currency_format(assignment.hourly_rate) %></td>
+			<td class="left_aligned"><%= currency_format(assignment.billable_hours) %></td>
+		</tr>
+		<% total_hours_book += assignment.total_hours %>
+		<% total_billable_hours += assignment.billable_hours %>
+		<% total_allotted += assignment.allotted_hours if assignment.allotted_hours %>
+		<% total_remaining += assignment.remaining_hours if assignment.remaining_hours %>
+		<% end %>
+	<% } %>
+	<tr class="project_name emphasized totaled">
+		<td>Total</td>
+		<td></td>
+		<td class="centered"><%= number_format(total_allotted) %></td>
+		<td class="centered"><%= number_format(total_hours_book) %></td>
+		<td class="centered"><%= number_format(total_remaining) %></td>
+		<td></td>
+		<td><%= currency_format(total_billable_hours) %></td>
+	</tr>
+</table>
+
+<br />
+<h1>Month Overview</h2>
+<table id="big_calendar_header">
+	<tr>
+		<td class="left">
+			<%= link_to image_tag('arrow-back_24.gif'), {:controller => 'consultant/overview', :action => 'index', :displacement => (params[:displacement].to_i - 1)} %>
+		</td>
+		<td class="centered">
+			<%= date.strftime('%B') %> <%= date.year %>
+		</td>
+		<td class="right">
+			<%= link_to image_tag('arrow-forward_24.gif'), {:controller => 'consultant/overview', :action => 'index', :displacement => (params[:displacement].to_i + 1)} %>
+		</td>
+	</tr>
+</table>	
+
+<%= calendar(:year => date.year, :month => date.month, :first_day_of_week => 1, :header_format => '%a', :month_header => false) do |d|
+	render_calendar_cell(date, d)
+end
+%>

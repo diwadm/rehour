@@ -1,0 +1,2 @@
+module Reporting::OverviewHelper
+end
