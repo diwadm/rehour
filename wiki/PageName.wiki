@@ -8,10 +8,10 @@ reHour is an Open Source project written in Ruby on Rails.
 
 = Requirements =
 
-* Rails >= 2.3.4
-* Ruby
-* MySQL (or SQLite)
-* SVN for checking out code
+ * Rails >= 2.3.4
+ * Ruby
+ * MySQL (or SQLite)
+ * SVN for checking out code
 
 = Installation =
 
