@@ -24,29 +24,29 @@ I'm still working on creating a downloadable version of the package. For the mea
 
  b. Copy and edit the database config file:
 
-  $ cp config/database.yml.example config/database.yml
-  $ vi config/database.yml
+  `$ cp config/database.yml.example config/database.yml`
+  `$ vi config/database.yml`
 
  c. Create the database:
 
-  $ rake db:create
+  `$ rake db:create`
 
  d. Create the database schema:
 
-  $ rake db:migrate
+  `$ rake db:migrate`
 
  e. Load the require data:
 
-  $ rake db:seed
+  `$ rake db:seed`
 
  f. Run server:
 
-  $ ruby script/server
+  `$ ruby script/server`
   
 You're done! You can login using the default admin account:
 
-Username: admin
-Password: admin1
+  *Username:* admin
+  *Password:* admin1
 
 = Credits =
 
