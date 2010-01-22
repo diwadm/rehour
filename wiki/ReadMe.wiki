@@ -1,4 +1,4 @@
-#summary reHour README
+#summary Installation and Requirements
 
 = Introduction =
 
