@@ -45,8 +45,8 @@ I'm still working on creating a downloadable version of the package. For the mea
   
 You're done! You can login using the default admin account:
 
-  *Username:* admin
-  *Password:* admin1
+  Username: admin
+  Password: admin1
 
 = Credits =
 
