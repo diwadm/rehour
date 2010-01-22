@@ -19,8 +19,8 @@ I'm still working on creating a downloadable version of the package. For the mea
 
  a. Check out code:
 
-  $ svn checkout http://rehour.googlecode.com/svn/trunk/ rehour
-  $ cd rehour
+  `$ svn checkout http://rehour.googlecode.com/svn/trunk/ rehour`
+  `$ cd rehour`
 
  b. Copy and edit the database config file:
 
