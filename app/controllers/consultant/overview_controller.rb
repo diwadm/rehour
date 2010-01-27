@@ -14,12 +14,19 @@ class Consultant::OverviewController < ApplicationController
   def book
     @date = Date.parse("#{params[:month]}/#{params[:day]}/#{params[:year]}")
     @current_week = @date.cweek
-    @current_week += params[:adjustment].to_i if params[:adjustment]
+    @current_week = increment_week(@current_week, params[:adjustment].to_i) if params[:adjustment]
     
-    @week_date_label = week_dates(@current_week)
+    @year = @date.year
+    if @current_week > 53
+      @year += 1
+      @current_week = correct_week(@current_week)
+    end
     
-    @week_start = week_start(@current_week)
-    @week_end = week_end(@current_week)
+    @week_date_label = week_dates(@current_week, @year)
+    @week_start = week_start(@current_week, @year)
+    @week_end = week_end(@current_week, @year)
+    @current_week = correct_week(@current_week)
+    debugger
   end
   
   def save_book
@@ -82,5 +89,18 @@ class Consultant::OverviewController < ApplicationController
     flash[:notice] = "Data saved."
     
     return
+  end
+  
+  private
+  def increment_week(week, inc)
+    inc = 52 if inc > 52
+    inc = -52 if inc < -52
+    week += inc
+    week
+  end
+  
+  def correct_week(week)
+    week -= 53 if week > 53
+    week
   end
 end

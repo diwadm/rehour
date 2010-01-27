@@ -60,7 +60,7 @@
 			<tr class="record">
     			<td class="NAME-column">
 					<%= project_assignment.project.name %><br />
-					<%= project_assignment.role %>
+					<span class="project_role">(<%= project_assignment.role %>)</span>
 				</td>
     			<td class="customer-column">
 					<%= currency_format(project_assignment.hourly_rate) %>

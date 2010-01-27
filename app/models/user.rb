@@ -146,7 +146,7 @@ class User < ActiveRecord::Base
     
     # sort the customer's project alphabetically
     customers.each { |customer_id, assignments|
-      customers[customer_id] = assignments.sort { |x, y| y.project.sort_name <=> x.project.sort_name }
+      customers[customer_id] = assignments.sort { |x, y| x.project.sort_name <=> y.project.sort_name }
     }
     
     # finally, sort the customers hash according to the customer name alphabetically

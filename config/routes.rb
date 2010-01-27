@@ -12,6 +12,14 @@ ActionController::Routing::Routes.draw do |map|
   map.root :controller => 'sessions', :action => 'new'
   
   map.resources :users
+  
+  map.resources :customers, :namespace => "admin/" do |customers|
+    customers.resources :projects, :namespace => "admin/"
+  end
+
+  map.resources :departments, :namespace => "admin/"
+  map.resources :projects, :namespace => "admin/"
+  map.resources :project_assignments, :namespace => "admin/", :controller => "assignments"
 
   map.resource :session
 

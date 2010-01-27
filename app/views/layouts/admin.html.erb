@@ -4,10 +4,10 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title><%= app_name %> - <%= controller.controller_name %> :: <%= controller.action_name %></title>
 
-	<%= stylesheet_link_tag "#{assets_prefix}ehour" %>
+	<%= stylesheet_link_tag "#{assets_prefix}rehour" %>
 	<%= javascript_include_tag :defaults %>
 	<%= active_scaffold_includes %>
-	<%= stylesheet_link_tag "#{assets_prefix}ehourTabs" %>
+	<%= stylesheet_link_tag "#{assets_prefix}rehour_tabs" %>
 	<%= stylesheet_link_tag "#{calendar_prefix}calendars" %>
 	<%= stylesheet_link_tag "#{assets_prefix}style" %>
 </head>
@@ -125,6 +125,9 @@
 		    
 	<div class="mainColumn">
 		<%= yield %>
+		<div id="footer">
+			Copyright &copy; <%= Time.now.year %>. Diwa del Mundo.
+		</div>
 	</div>
     	
 	</body>
