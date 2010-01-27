@@ -65,7 +65,11 @@ class ProjectAssignment < ActiveRecord::Base
     self.role.blank? ? 'N/A' : self.role
   end
   
-  def total_hours
+  def total_hours(options = {})
+    if options[:start_date] and options[:end_date]
+      return ProjectAssignment.count_by_sql("SELECT SUM(HOURS) FROM timesheet_entries WHERE project_assignment_id = #{self.id} AND (entry_date BETWEEN #{options[:start_date]} AND #{options[:end_date]})")
+    end
+    
     ProjectAssignment.count_by_sql("SELECT SUM(HOURS) FROM timesheet_entries WHERE project_assignment_id = #{self.id}")
   end
   

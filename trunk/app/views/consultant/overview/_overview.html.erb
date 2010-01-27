@@ -56,13 +56,13 @@
 <table id="big_calendar_header">
 	<tr>
 		<td class="left">
-			<%= link_to image_tag('arrow-back_24.gif'), {:controller => 'consultant/overview', :action => 'index', :displacement => (params[:displacement].to_i - 1)} %>
+			<%= link_to image_tag('arrow-back_24.gif', :title => 'Go to Previous Month', :alt => 'Go to Previous Month'), {:controller => 'consultant/overview', :action => 'index', :displacement => (params[:displacement].to_i - 1)} %>
 		</td>
 		<td class="centered">
 			<%= date.strftime('%B') %> <%= date.year %>
 		</td>
 		<td class="right">
-			<%= link_to image_tag('arrow-forward_24.gif'), {:controller => 'consultant/overview', :action => 'index', :displacement => (params[:displacement].to_i + 1)} %>
+			<%= link_to image_tag('arrow-forward_24.gif', :title => 'Go to Next Month', :alt => 'Go to Next Month'), {:controller => 'consultant/overview', :action => 'index', :displacement => (params[:displacement].to_i + 1)} %>
 		</td>
 	</tr>
 </table>	

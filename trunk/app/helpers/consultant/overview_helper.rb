@@ -59,30 +59,53 @@ module Consultant::OverviewHelper
     "#{date.year}-#{date.month}-#{date.day}"
   end
   
-  def week_dates(week_num)
-    date_format(week_start(week_num)) + ' - ' + date_format(week_end(week_num))
+  def week_dates(week_num, year)
+    date_format(week_start(week_num, year)) + ' - ' + date_format(week_end(week_num, year))
   end
   
-  def week_start(week_num)
-    year = Time.now.year
+  # the idea here is to get the start (Monday) of a week number
+  # the Date.commercial method follows the ISO 8601 standard which 
+  # basically states:
+  #
+  # ISO 8601 defines the Week as always starting with Monday.
+  # The first week is the week which contains the first Thursday
+  # of the calendar year.
+  # This implies that it is the week which is mostly within the
+  # Calendar year and the week containing January 4th.
+  def week_start(week_num, year = 0)
+    year = Time.now.year if year == 0
+    
     begin
       first_date_of_the_week = Date.commercial(year, week_num, 1)
+      
+    # Date.commercial throws an exception if it can't find the 
+    # Monday of the week. This usually happens if the Monday
+    # of the week is on the previous year. For example,
+    # December 28, 2009 (Monday) - January 3, 2010 (Sunday)
     rescue
-      week_num = 1
+      # we'll basically decrement the year
+      year -= 1
       first_date_of_the_week = Date.commercial(year, week_num, 1)
     end
     
     first_date_of_the_week
   end
   
-  def week_end(week_num)
-    year = Time.now.year
+  # this method is similar to week_start except that it gets
+  # the Sunday of the week
+  def week_end(week_num, year = 0)
+    year = Time.now.year if year == 0
+    
     begin
       last_date_of_the_week = Date.commercial(year, week_num, 7)
+      
+    # same idea with week_start but we'll increment the year
     rescue
-      week_num = 1
+      year -= 1
       last_date_of_the_week = Date.commercial(year, week_num, 7)
     end
+    
+    last_date_of_the_week = Date.commercial(year, week_num, 7)
     
     last_date_of_the_week
   end
