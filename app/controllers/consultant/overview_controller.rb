@@ -26,7 +26,7 @@ class Consultant::OverviewController < ApplicationController
     @week_start = week_start(@current_week, @year)
     @week_end = week_end(@current_week, @year)
     @current_week = correct_week(@current_week)
-    debugger
+
   end
   
   def save_book
@@ -42,43 +42,39 @@ class Consultant::OverviewController < ApplicationController
     # the assignments are in a hash with the project_assignment_id as the key
     params.each { |param_name, hours|
       if is_book_param?(param_name)
-        assignment_id = book_assignment_id(param_name)
-        project_assignment = ProjectAssignment.find(assignment_id)
-        
-        @assignments[assignment_id] ||= project_assignment
-        @assignments[assignment_id].temporary_hours ||= project_assignment.total_hours_but_not_for(params[:week_start], params[:week_end])
+        assignment_id = book_assignment_id(param_name).to_i
+        if project_assignment = ProjectAssignment.find(assignment_id)
+          @assignments[assignment_id] ||= project_assignment
+          @assignments[assignment_id].temporary_hours ||= project_assignment.total_hours_but_not_for(params[:week_start], params[:week_end])
+        end
       end
     }
 
     params.each { |param_name, hours|
-      if is_book_param?(param_name)
+      if is_book_param?(param_name) and hours != ''
         hours = hours.to_f
         
-        @total_hours[book_assignment_id(param_name)] ||= 0.0
-        
-        assignment_id = book_assignment_id(param_name)
+        assignment_id = book_assignment_id(param_name).to_i
         comment = params[determine_comment_param(param_name)]
         
+        @total_hours[assignment_id] ||= 0.0
+        @timesheet_entry = TimesheetEntry.find_or_create(book_assignment_id(param_name), book_date(param_name), hours, comment)
+
         # only restrict saving when the assignment is fixed
-        if @assignments[assignment_id].is_fixed? and (timesheet_entry = TimesheetEntry.normal_find(book_assignment_id(param_name), book_date(param_name), hours, comment))
-          
+        if @assignments[assignment_id] and @assignments[assignment_id].is_fixed?
           # save the total number of hours if the hours from other weeks (temporary_hours) + hours this week (hours)
           # is still allowed (project_assignment.allotted_hours)
           # otherwise, leave it blank but don't forget to remind the user
           if (@assignments[assignment_id].temporary_hours + hours) > @assignments[assignment_id].allotted_hours
-            timesheet_entry.update_attribute(:hours, nil)
-            @error_entries << timesheet_entry
+            @timesheet_entry.update_attribute(:hours, nil)
+            @error_entries << @timesheet_entry
             @has_error = true
           
-          elsif  (@assignments[assignment_id].temporary_hours + hours) <= @assignments[assignment_id].allotted_hours
-            timesheet_entry.update_attribute(:hours, hours)
-            @assignments[assignment_id].temporary_hours += timesheet_entry.hours
-            @total_hours[assignment_id] += timesheet_entry.hours  
+          elsif  (@assignments[assignment_id].temporary_hours + hours) <= @assignments[assignment_id].allotted_hours            
+            @timesheet_entry.update_attribute(:hours, hours)
+            @assignments[assignment_id].temporary_hours += @timesheet_entry.hours
+            @total_hours[assignment_id] += @timesheet_entry.hours  
           end
-
-        # we don't need any check for project_assignments that are not-fixed (free flowing :-)
-        else
-          timesheet_entry = TimesheetEntry.create_or_save(book_assignment_id(param_name), book_date(param_name), hours, comment)  
         end
 
       end
@@ -99,6 +95,7 @@ class Consultant::OverviewController < ApplicationController
     week
   end
   
+  private
   def correct_week(week)
     week -= 53 if week > 53
     week
