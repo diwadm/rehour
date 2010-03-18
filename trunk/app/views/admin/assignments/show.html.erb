@@ -17,23 +17,23 @@
 			</tr>
 			<tr class="odd">
 				<td>Hourly Rate</th>
-				<td><%= currency_format(@project_assignment.HOURLY_RATE) %></td>
+				<td><%= currency_format(@project_assignment.hourly_rate) %></td>
 			</tr>
 			<tr>
 				<td>Type</th>
-				<td><%= @project_assignment.project_assignment_type.name %></td>
+				<td><%= @project_assignment.assignment_type.name %></td>
 			</tr>
 			<tr class="odd">
 				<td>Date Start</th>
-				<td><%= date_format(@project_assignment.DATE_START) %></td>
+				<td><%= date_format(@project_assignment.date_start) %></td>
 			</tr>
 			<tr>
 				<td>Date End</th>
-				<td><%= date_format(@project_assignment.DATE_END) %></td>
+				<td><%= date_format(@project_assignment.date_end) %></td>
 			</tr>
 			<tr class="odd">
 				<td>Role</th>
-				<td><%= @project_assignment.ROLE %></td>
+				<td><%= @project_assignment.role %></td>
 			</tr>
 			<tr>
 				<td>Active?</th>

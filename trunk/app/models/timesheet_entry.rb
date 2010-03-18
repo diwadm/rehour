@@ -24,11 +24,22 @@ class TimesheetEntry < ActiveRecord::Base
       timesheet_entry.save
     end
     
-    return timesheet_entry
+    timesheet_entry
   end
   
   def self.normal_find(assignment_id, date_entry, hours, comment)
     TimesheetEntry.find_by_project_assignment_id_and_entry_date(assignment_id, date_entry)
+  end
+  
+  def self.find_or_create(assignment_id, date_entry, hours, comment)
+    timesheet_entry = TimesheetEntry.find_by_project_assignment_id_and_entry_date(assignment_id, date_entry)
+      
+    if timesheet_entry == nil
+      timesheet_entry = TimesheetEntry.new({:project_assignment_id => assignment_id, :entry_date => date_entry, :hours => hours, :comment => comment})
+      timesheet_entry.save
+    end
+    
+    timesheet_entry
   end
   
   def self.entries_for_the_day(user_id, date)

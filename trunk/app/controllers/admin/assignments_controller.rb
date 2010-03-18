@@ -20,7 +20,11 @@ class Admin::AssignmentsController < ApplicationController
   
   def destroy
     @project_assignment = ProjectAssignment.find(params[:id])
-    @project_assignment.destroy
+    
+    if @project_assignment
+      @project_assignment.destroy
+    end
+    
     flash[:notice] = 'Assignment has been deleted successfully.'
     redirect_to :action => 'index'
   end

@@ -42,7 +42,7 @@ module ApplicationHelper
   end
   
   def date_format(time = Time.now)
-    time.strftime('%b %d, %Y')
+    time.strftime('%b %d, %Y') if time != nil
   end
   
   def date_time_format(time = Time.now)

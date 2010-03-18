@@ -119,11 +119,23 @@ module Consultant::OverviewHelper
   end
   
   def book_month(param_name)
-    param_name.split('_')[1]
+    month = param_name.split('_')[1]
+    
+    if month.to_s.length == 1
+      month = "0" + month
+    end
+    
+    month
   end
   
   def book_day(param_name)
-    param_name.split('_')[2]
+    day = param_name.split('_')[2]
+    
+    if day.to_s.length == 1
+      day = "0" + day
+    end
+    
+    day
   end
   
   def book_year(param_name)
