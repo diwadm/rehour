@@ -75,6 +75,10 @@ class Consultant::OverviewController < ApplicationController
             @assignments[assignment_id].temporary_hours += @timesheet_entry.hours
             @total_hours[assignment_id] += @timesheet_entry.hours  
           end
+        
+        # assignment is not fixed  
+        else
+          @timesheet_entry.update_attributes(:hours => hours, :comment => comment)
         end
 
       end

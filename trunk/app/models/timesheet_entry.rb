@@ -11,8 +11,8 @@ class TimesheetEntry < ActiveRecord::Base
   # end
   
   def validate
-    if self.hours and self.hours <= 0
-      errors.add(:hours, 'must be greater than 0')
+    if self.hours and self.hours < 0
+      errors.add(:hours, 'must be greater than or equal to 0')
     end
   end
   
